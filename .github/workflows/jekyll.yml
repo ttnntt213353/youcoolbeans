@@ -51,9 +51,26 @@ jobs:
         with:
           path: youcoolbeans
 
-      - name: Check build status
-        id: status
-        run: |
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      runs-on: ubuntu-latest
+  needs: build
+   steps:
+     - name: Deploy to GitHub Pages
+       uses: actions/deploy-pages@v4
+
+
+  jobs:
+  # Set up job
+    build:
+    runs-on: ubuntu-latest
+    steps:
+      -name: Check build status
+      id: status
+      run: |
           echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
           if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
             echo "status=success" >> $GITHUB_OUTPUT
@@ -61,23 +78,5 @@ jobs:
             echo "status=failure" >> $GITHUB_OUTPUT
           fi
 
-      - name: Report result
-        run: |
-          if [ "${{ steps.status.outputs.status }}" = "success" ]; then
-            echo "🟩 Build succeeded!"
-          else
-            echo "🟥 Build failed!"
-          fi
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ github.com/ }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
 
