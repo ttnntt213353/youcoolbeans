@@ -13,8 +13,8 @@ jobs:
       - uses: docker://ghcr.io/actions/jekyll-build-pages:v1.0.13
       - uses: actions/jekyll-build-pages@v1
         with:
-          source: ./
-          destination: _site
+          source: /github.com/ttnntt213353/
+          destination: _youcoolbeans
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: _youcoolbeans
