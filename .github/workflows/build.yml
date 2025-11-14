@@ -14,7 +14,7 @@ jobs:
       - uses: actions/jekyll-build-pages@v1
         with:
           source: /github.com/ttnntt213353/
-          destination: _youcoolbeans
+          destination: /github.com/ttnntt213353/youcoolbeans
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _youcoolbeans
+          path: /github.com/ttnntt213353/youcoolbeans
