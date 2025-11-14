@@ -1,0 +1,29 @@
+name: report-build-status
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check build status
+        id: status
+        run: |
+          echo "Workflow conclusion: ${{ github.event.workflow_run.conclusion }}"
+          if [ "${{ github.event.workflow_run.conclusion }}" = "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Report result
+        run: |
+          if [ "${{ steps.status.outputs.status }}" = "success" ]; then
+            echo "🟩 Build succeeded!"
+          else
+            echo "🟥 Build failed!"
+          fi
